@@ -106,8 +106,10 @@ function Wrapper({ children, className, ...rest }) {
 function MainHeader() {
   return (
     <header>
-      <Wrapper className="d-flex justify-content-between align-items-center">
-        <p>HelloMovies</p>
+      <Wrapper className="d-flex justify-content-between align-items-center my-4 fw-bold">
+        <p className="fs-3 mb-0">
+          <NavLink to="/">HelloMovies.</NavLink>
+        </p>
         <nav>
           <ul className="d-flex my-3">
             <li className="mx-4">

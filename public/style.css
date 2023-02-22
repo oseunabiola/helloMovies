@@ -73,8 +73,10 @@ select {
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 }
 .movies .movie {
+  --border-radius: 1.5rem;
   overflow: hidden;
   position: relative;
+  border-radius: var(--border-radius);
 }
 .movies .movie:focus {
   outline: 3px solid green;
@@ -89,15 +91,38 @@ select {
   background-color: rgba(0, 0, 0, 0.8);
   color: #fff;
   top: 130%;
+  border-radius: var(--border-radius);
   -webkit-transition: all 350ms ease-in-out;
--moz-transition: all 350ms ease-in-out;
--ms-transition: all 350ms ease-in-out;
--o-transition: all 350ms ease-in-out;
-transition: all 350ms ease-in-out;
+  -moz-transition: all 350ms ease-in-out;
+  -ms-transition: all 350ms ease-in-out;
+  -o-transition: all 350ms ease-in-out;
+  transition: all 350ms ease-in-out;
 }
 .movie.show .movie__details {
   top: 0;
 }
 .rounded-200 {
   border-radius: 1.5rem;
+}
+
+.loading {
+  width: 2rem;
+  height: 2rem;
+  animation: rotate 1500ms ease-in-out 0s infinite alternate-reverse forwards;
+}
+
+@keyframes rotate {
+  0% {
+    background-color: var(--clr-bg);
+    background-color: #000;
+    border-radius: 10%;
+  }
+  100% {
+    background-color: green;
+    border-radius: 50%;
+    rotate: 360deg;
+  }
+}
+.height-80 {
+  height: 80%;
 }

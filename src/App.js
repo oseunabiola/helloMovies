@@ -43,7 +43,7 @@ function Movies() {
   useEffect(() => {
     async function loadFeatured() {
       const result = await fetch(
-        `http://www.omdbapi.com/?apikey=${API_KEY}&i=${API_ID}&s={search}`
+        `https://www.omdbapi.com/?apikey=${API_KEY}&i=${API_ID}&s={search}`
       );
       const resultJson = await result.json();
       setFeaturedLoaded(true);

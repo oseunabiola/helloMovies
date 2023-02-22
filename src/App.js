@@ -2,11 +2,20 @@ import { useEffect, useState } from "react";
 import { NavLink, Outlet, Route, Routes } from "react-router-dom";
 
 function App() {
+  const [liked, setLiked] = useState(JSON.parse(localStorage.getItem("helloMoviesLiked")) || []);
+
+  function addToLiked(movie) {
+    setLiked((prev) => {
+      const newLiked = [...prev, movie];
+      localStorage.setItem("helloMoviesLiked", JSON.stringify(newLiked));
+      return newLiked;
+    });
+  }
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<Movies />} />
-        <Route path="/favourites" element={<Favourites />} />
+        <Route index element={<Movies addToLiked={addToLiked} liked={liked} />} />
+        <Route path="/favourites" element={<Favourites liked={liked} />} />
       </Route>
     </Routes>
   );
@@ -33,7 +42,7 @@ function getRandomSearchQuery() {
   return DEFAULT_SEARCH_QUERIES[randomIndex];
 }
 
-function Movies() {
+function Movies({ addToLiked, liked }) {
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState(getRandomSearchQuery());
   const [featuredLoaded, setFeaturedLoaded] = useState(true);
@@ -84,7 +93,14 @@ function Movies() {
 
       <div className="movies | d-grid gap-4 pb-5">
         {parsedMovies?.length
-          ? parsedMovies.map((movie, index) => <MovieCard movie={movie} key={`${index}`} />)
+          ? parsedMovies.map((movie, index) => (
+              <MovieCard
+                movie={movie}
+                addToLiked={addToLiked}
+                key={`${index}`}
+                isLiked={liked.includes(movie)}
+              />
+            ))
           : null}
       </div>
     </Wrapper>
@@ -125,7 +141,7 @@ function MainHeader() {
   );
 }
 
-function MovieCard({ movie }) {
+function MovieCard({ movie, addToLiked, isLiked }) {
   function showMovieDetails(e) {
     e.currentTarget.classList.add("show");
   }
@@ -146,6 +162,11 @@ function MovieCard({ movie }) {
         <p className="mb-0 fst-italic">
           <small>{movie.Year}</small>
         </p>
+        <div>
+          <i
+            className={`fs-5 bi ${isLiked ? "bi-star-fill" : "bi-star"}`}
+            onClick={() => addToLiked(movie)}></i>
+        </div>
       </div>
     </div>
   );

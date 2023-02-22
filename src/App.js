@@ -66,7 +66,9 @@ function Movies() {
   return (
     <Wrapper>
       <form onSubmit={setSearchQuery}>
-        <div className="input-group mb-5">
+        <div
+          className="input-group mb-5"
+          style={{ borderRadius: "1.5rem", border: "1px solid #ddd", overflow: "hidden" }}>
           <input
             type="search"
             name="search"
@@ -104,11 +106,11 @@ function Wrapper({ children, className, ...rest }) {
 function MainHeader() {
   return (
     <header>
-      <Wrapper className="d-flex">
+      <Wrapper className="d-flex justify-content-between align-items-center">
         <p>HelloMovies</p>
         <nav>
-          <ul>
-            <li>
+          <ul className="d-flex my-3">
+            <li className="mx-4">
               <NavLink to="/">Home</NavLink>
             </li>
             <li>

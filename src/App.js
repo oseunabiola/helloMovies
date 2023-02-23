@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, NavLink, Outlet, Route, Routes } from "react-router-dom";
 
 function App() {
   const [liked, setLiked] = useState(JSON.parse(localStorage.getItem("helloMoviesLiked")) || []);
@@ -12,12 +12,14 @@ function App() {
     });
   }
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Movies addToLiked={addToLiked} liked={liked} />} />
-        <Route path="/favourites" element={<Favourites liked={liked} />} />
-      </Route>
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Movies addToLiked={addToLiked} liked={liked} />} />
+          <Route path="/favourites" element={<Favourites liked={liked} />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
@@ -36,7 +38,16 @@ const API_KEY = "939fbadf",
   API_ID = "tt3896198";
 
 function getRandomSearchQuery() {
-  const DEFAULT_SEARCH_QUERIES = ["smart", "developer", "technology", "adventure", "ceo", "africa"];
+  const DEFAULT_SEARCH_QUERIES = [
+    "smart",
+    "art",
+    "love",
+    "trade",
+    "technology",
+    "adventure",
+    "ceo",
+    "africa",
+  ];
   const randomIndex = Math.floor(Math.random() * DEFAULT_SEARCH_QUERIES.length);
 
   return DEFAULT_SEARCH_QUERIES[randomIndex];
@@ -68,6 +79,7 @@ function Movies({ addToLiked, liked }) {
     e.preventDefault();
     if (!e.target.search.value) return;
     setSearch(e.target.search.value);
+    setFeaturedLoaded(false);
   }
 
   if (isLoading) return <Loading />;
@@ -106,9 +118,29 @@ function Movies({ addToLiked, liked }) {
     </Wrapper>
   );
 }
+function Favourites({ removeLiked }) {
+  const [liked, setLiked] = useState(JSON.parse(localStorage.getItem("helloMoviesLiked")) || []);
 
-function Favourites() {
-  return <div>Favourites here</div>;
+  return (
+    <Wrapper>
+      {liked?.length ? (
+        <div className="movies | d-grid gap-4 pb-5">
+          {liked.map((movie, index) => (
+            <MovieCard movie={movie} key={`${index}`} isLiked={true} />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center">
+          <p>
+            You have not liked any movie?{" "}
+            <Link to="/" style={{ textDecoration: "underline" }}>
+              Check out some movies
+            </Link>
+          </p>
+        </div>
+      )}
+    </Wrapper>
+  );
 }
 
 function Wrapper({ children, className, ...rest }) {

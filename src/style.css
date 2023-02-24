@@ -98,6 +98,7 @@ select {
   -ms-transition: all 350ms ease-in-out;
   -o-transition: all 350ms ease-in-out;
   transition: all 350ms ease-in-out;
+  cursor: pointer;
 }
 .movie.show .movie__details {
   top: 0;

@@ -8,7 +8,6 @@ export function getRandomSearchQuery() {
     "adventure",
     "ceo",
     "africa",
-    "kamasutra",
     "energy",
     "climate",
     "sense",

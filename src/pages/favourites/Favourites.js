@@ -2,9 +2,7 @@ import { Link } from "react-router-dom";
 import MovieCard from "../../components/MovieCard";
 import Wrapper from "../../components/Wrapper";
 
-export default function Favourites({ toggleLiked }) {
-  const liked = JSON.parse(localStorage.getItem("helloMoviesLiked")) || [];
-
+export default function Favourites({ toggleLiked, liked }) {
   return (
     <Wrapper>
       <h1 className="h4 mb-5">Favourites.</h1>

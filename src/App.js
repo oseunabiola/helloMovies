@@ -11,7 +11,7 @@ function App() {
   function toggleLiked(movie) {
     setLiked((prev) => {
       let newLiked;
-      if (prev.includes(movie)) {
+      if (prev.some((_movie) => _movie.imdbID === movie.imdbID)) {
         newLiked = prev.filter((_liked) => _liked !== movie);
       } else {
         newLiked = [...prev, movie];
@@ -20,6 +20,11 @@ function App() {
       return newLiked;
     });
   }
+
+  function isLiked(movie) {
+    return liked.some((_movie) => _movie.imdbID === movie.imdbID);
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -29,7 +34,7 @@ function App() {
             path="/favourites"
             element={<Favourites toggleLiked={toggleLiked} liked={liked} />}
           />
-          <Route path="/movie/:id" element={<Movie liked={liked} />} />
+          <Route path="/movie/:id" element={<Movie liked={liked} isLiked={isLiked} />} />
         </Route>
       </Routes>
     </BrowserRouter>

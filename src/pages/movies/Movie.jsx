@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import Wrapper from "../../components/Wrapper";
 
-export default function Movie() {
+export default function Movie({ isLiked }) {
   const [movie, setMovie] = useState(undefined);
   const { id } = useParams();
 
@@ -28,7 +28,13 @@ export default function Movie() {
           <img src={movie.Poster} alt={movie.Title} className="rounded-200" />
         </div>
         <div className="details | col-12 col-lg-7">
-          <h1 className="lh-1">{movie.Title}</h1>
+          <div className="d-flex align-items-center flex-wrap">
+            <h1 className="lh-1 me-2">{movie.Title}</h1>
+            <small
+              title={`${isLiked(movie) ? "You liked this movie" : ""}`}
+              className={`bi ${isLiked(movie) ? "bi-star-fill" : "bi-star"}`}></small>
+          </div>
+
           <div className="mb-3">
             <span className="badge bg-dark text-white rounded-200 me-2">{movie.Year}</span>
             <span className="badge text-dark me-2">{movie.Runtime}</span>

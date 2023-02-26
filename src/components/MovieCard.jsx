@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import dummyPoster from "../default-movie-768x1129.jpg";
 
 export default function MovieCard({ movie, toggleLiked, isLiked }) {
   const navigate = useNavigate();
@@ -8,6 +9,7 @@ export default function MovieCard({ movie, toggleLiked, isLiked }) {
   function hideMovieDetails(e) {
     e.currentTarget.classList.remove("show");
   }
+
   return (
     <div
       className="movie | rounded-200"
@@ -16,17 +18,24 @@ export default function MovieCard({ movie, toggleLiked, isLiked }) {
       onMouseLeave={hideMovieDetails}
       onFocus={showMovieDetails}
       onBlur={hideMovieDetails}>
-      <img src={movie.Poster} alt={movie.Title} />
+      <img
+        src={
+          movie.poster_path
+            ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
+            : dummyPoster
+        }
+        alt={movie.title}
+      />
       <div
         className="movie__details | p-3"
         onClick={(e) => {
           if (!e.target.dataset.like) {
-            navigate(`/movie/${movie.imdbID}`);
+            navigate(`/movie/${movie.id}`);
           }
         }}>
-        <p className="fw-bold fs-5 lh-1">{movie.Title}</p>
+        <p className="fw-bold fs-5 lh-1">{movie.title}</p>
         <p className="mb-0 fst-italic">
-          <small>{movie.Year}</small>
+          <small>{new Date(movie.release_date).getFullYear() || null}</small>
         </p>
         <div>
           <i

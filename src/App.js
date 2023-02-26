@@ -11,7 +11,7 @@ function App() {
   function toggleLiked(movie) {
     setLiked((prev) => {
       let newLiked;
-      if (prev.some((_movie) => _movie.imdbID === movie.imdbID)) {
+      if (prev.some((_movie) => _movie.id === movie.id)) {
         newLiked = prev.filter((_liked) => _liked !== movie);
       } else {
         newLiked = [...prev, movie];
@@ -22,7 +22,7 @@ function App() {
   }
 
   function isLiked(movie) {
-    return liked.some((_movie) => _movie.imdbID === movie.imdbID);
+    return liked.some((_movie) => _movie.id === movie.id);
   }
 
   return (

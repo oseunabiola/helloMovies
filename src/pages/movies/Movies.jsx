@@ -6,34 +6,45 @@ import { getRandomSearchQuery } from "../../utils";
 
 export default function Movies({ toggleLiked, liked }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [search, setSearch] = useState(getRandomSearchQuery());
+  const [genres, setGenres] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(getRandomSearchQuery());
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    async function loadFeatured() {
-      setIsLoading(true);
-      const result = await fetch(
-        `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&i=${process.env.REACT_APP_API_ID}&s=${search}`
-      );
-      const resultJson = await result.json();
-      setMovies(resultJson.Search);
-      setIsLoading(false);
+    async function getGenres() {
+      const URL = `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`;
+      const response = await fetch(URL);
+      const responseJson = await response.json();
+      const { genres } = responseJson;
+      return setGenres(genres.map((_g) => _g.name));
     }
 
-    loadFeatured();
-  }, [search]);
+    getGenres();
+  }, []);
 
-  function setSearchQuery(e) {
+  useEffect(() => {
+    async function getMovies() {
+      setIsLoading(true)
+      const URL = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1&query=${searchQuery}`;
+      const response = await fetch(URL);
+      const responseJson = await response.json();
+      setMovies(responseJson.results);
+      setIsLoading(false)
+    }
+    getMovies();
+  }, [searchQuery]);
+
+  function setQuery(e) {
     e.preventDefault();
     if (!e.target.search.value) return;
-    setSearch(e.target.search.value);
+    setSearchQuery(e.target.search.value);
   }
 
   if (isLoading) return <Loading />;
 
   return (
     <Wrapper>
-      <form onSubmit={setSearchQuery}>
+      <form onSubmit={setQuery}>
         <div
           className="input-group mb-5"
           style={{ borderRadius: "1.5rem", border: "1px solid #ddd", overflow: "hidden" }}>

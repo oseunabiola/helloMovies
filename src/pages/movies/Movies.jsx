@@ -24,12 +24,12 @@ export default function Movies({ toggleLiked, liked }) {
 
   useEffect(() => {
     async function getMovies() {
-      setIsLoading(true)
+      setIsLoading(true);
       const URL = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1&query=${searchQuery}`;
       const response = await fetch(URL);
       const responseJson = await response.json();
       setMovies(responseJson.results);
-      setIsLoading(false)
+      setIsLoading(false);
     }
     getMovies();
   }, [searchQuery]);
@@ -48,11 +48,11 @@ export default function Movies({ toggleLiked, liked }) {
         <div
           className="input-group mb-5"
           style={{ borderRadius: "1.5rem", border: "1px solid #ddd", overflow: "hidden" }}>
-          <span
+          {/* <span
             className="input-group-text bg-transparent border-0"
             style={{ borderRadius: "1.5rem" }}>
             <i className="bi bi-search"></i>
-          </span>
+          </span> */}
           <input
             type="search"
             name="search"
